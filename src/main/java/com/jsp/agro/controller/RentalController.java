@@ -1,31 +1,26 @@
-package com.jsp.agro.controller;
-
+package com.jsp.agroLiveProject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.ZoneId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsp.agro.entity.Rental;
-import com.jsp.agro.service.RentalService;
-import com.jsp.agro.util.ResponseStructure;
-import com.jsp.agro.util.TimeCalculator;
+//import com.jsp.agroLiveProject.entity.Equipment;
+import com.jsp.agroLiveProject.entity.Rental;
+import com.jsp.agroLiveProject.service.RentalService;
+import com.jsp.agroLiveProject.util.ResponseStructure;
 
 @RestController
 public class RentalController {
-	@Autowired
-	private RentalService rentalService;
-	
 
+	@Autowired
+	private RentalService rService;
+	
 	@PostMapping("/saveRental")
-	public ResponseEntity<ResponseStructure<Rental>> saveRental(@RequestParam String equipmentId ,@RequestParam String  startDateAndTime,@RequestParam String  endDateAndTime){
+	public ResponseEntity<ResponseStructure<Rental>> saveRental(@RequestParam int eid, @RequestBody Rental r ) {
+		return rService.saveRental(eid,r);
 		
-		  return rentalService.saveRental(equipmentId,startDateAndTime, endDateAndTime);
-}
+	}
 }
