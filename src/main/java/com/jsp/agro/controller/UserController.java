@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,30 +28,25 @@ public class UserController {
 	@Autowired
 	private UserRepo r;
 	@PostMapping("/register")
-	public ResponseEntity<ResponseStructure<User>> register(@RequestBody User u){
+	public ResponseEntity<ResponseStructure<User>> register(@RequestBody  User u){
 		return service.register(u);
 	}
 	
-	@PostMapping("/save")
-	public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody User u){
-		return service.saveUser(u);
-	}
-	@PutMapping("/update")
+	@PutMapping("/updateUser")
 	public ResponseEntity<ResponseStructure<User>> updateUser(@RequestBody User u){
 		return service.updateUser(u);
 	}
-	@GetMapping("/fetch")
-	public ResponseEntity<ResponseStructure<User>> fetchById(@RequestParam int id){
-		System.out.println("controller");
-		return service.fetchById(id);
+	@GetMapping("/fetchUser")
+	public ResponseEntity<ResponseStructure<User>> fetchById(@RequestParam String userId){
+		return service.fetchById(userId);
 	}
-	@GetMapping("/fetchAll")
-	public List<User> fetchAll(){
+	@GetMapping("/fetchAllUser")
+	public ResponseEntity<ResponseStructure<List<User>>> fetchAll(){
 		return service.fetchAll();
 	}
-	@DeleteMapping("/delete")
-	public ResponseEntity<ResponseStructure<User>> deleteUser(@RequestParam int id){
-		return service.deleteUser(id);
+	@DeleteMapping("/deleteUser")
+	public ResponseEntity<ResponseStructure<User>> deleteUser(@RequestParam String userId){
+		return service.deleteUser(userId);
 	}
 	@GetMapping("/login")
 	public ResponseEntity<ResponseStructure<User>> login(@RequestParam String email,@RequestParam String pwd) {
@@ -61,15 +57,6 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<Integer>> otpSend(@RequestParam String email){
 		System.out.println("hello");
 		return service.otp(email);
-	}
-	
-	
-	
-	//image-------------------------------
-	
-	@PostMapping("/saveimg")
-	public String imageSave(@RequestParam MultipartFile file,@RequestParam String description) throws IOException {
-		return service.imageSave(file, description);
 	}
 	
 }

@@ -32,7 +32,7 @@ public class ImageDao {
 		
 		
 	}
-	public Image fetchById(int id) {
+	public Image fetchById(String id) {
 		Optional<Image> db = irepo.findById(id);
 		if(db.isPresent())
 			return db.get();
@@ -40,25 +40,23 @@ public class ImageDao {
 			return null;
 	
 	}
-//	public Image deleteById(int id) {
-//		Optional<Image> db = irepo.findById(id);
-//		if(db.isPresent()) {
-//			Image imageDb=db.get();
-//		irepo.deleteById(id);
-//		return imageDb;
-//		}
-//		else 
-//			return null;
-//	}
-	public Image deleteById(int id) {
+	public byte[] fetchByImage(String id) {
+		Optional<Image> db = irepo.findById(id);
+		if(db.isPresent())
+			return db.get().getPicture();
+		else
+			return null;
+	
+	}
+	public Image deleteById(String id) {
 		Optional<Image> db = irepo.findById(id);
 		if(db.isPresent()) {
 			Image imageDb=db.get();
-			System.out.println("image dao....");
 			 User userdb = userRepo.fetchByImage(imageDb);
-			 System.out.println("image ....");
-			 userdb.setImage(null);
-			 userdao.updateUser(userdb);
+			 if(userdb!=null) {
+				 userdb.setImage(null);
+				 userdao.updateUser(userdb);
+			 }
 		irepo.deleteById(id);
 		return imageDb;
 		}
@@ -67,19 +65,17 @@ public class ImageDao {
 	}
 	
 	
-	public Image updateImage(int id,String description,MultipartFile file) throws IOException {
-		Optional<Image> db = irepo.findById(i.getId());
+	public Image updateImage(String id,String description,MultipartFile file) throws IOException {
+		Optional<Image> db = irepo.findById(id);
 		if(db.isPresent()) {
 			Image imageDb=db.get();
-			if(description==null) {
-				i.setDescription(imageDb.getDescription());
-			}else
-				i.setDescription(description);
-			if(file==null) {
-				i.setPicture(imageDb.getPicture());
-			}else
-				i.setPicture(file.getBytes());
-			return irepo.save(i);
+			if(description!=null) {
+			imageDb.setDescription(description);
+			}
+			if(file!=null) {
+				imageDb.setPicture(imageDb.getPicture());
+			}
+			return irepo.save(imageDb);
 			
 		}
 		return null;

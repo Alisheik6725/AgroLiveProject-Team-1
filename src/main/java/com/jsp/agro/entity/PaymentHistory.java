@@ -1,5 +1,7 @@
 package com.jsp.agro.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,21 +19,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Component
-public class Comment {
+public class PaymentHistory {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
-	@GenericGenerator(name = "comment_seq", strategy = "com.jsp.agro.util.MyGenerator", parameters = {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_seq")
+	@GenericGenerator(name = "payment_seq", strategy = "com.jsp.agro.util.MyGenerator", parameters = {
 			@Parameter(name = MyGenerator.INCREMENT_PARAM, value = "50"),
-			@Parameter(name = MyGenerator.VALUE_PREFIX_PARAMETER, value = "comment"),
+			@Parameter(name = MyGenerator.VALUE_PREFIX_PARAMETER, value = "payment"),
 			@Parameter(name = MyGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
 	private String id;
-	private String msg;
+	private String mode;
+	private LocalDateTime paymentTime;
+	private double amount;
 	@ManyToOne
 	private User user;
-	
-
 }

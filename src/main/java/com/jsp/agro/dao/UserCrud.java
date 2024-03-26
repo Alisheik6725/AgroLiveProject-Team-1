@@ -21,10 +21,6 @@ public class UserCrud {
 	public User register(User u) {
 		return repo.save(u);
 	}
-	
-	public User saveUser(User u) {
-		return repo.save(u);
-	}
 	public User updateUser(User u) {
 		 Optional<User> dbuser = repo.findById(u.getId());
 		if(dbuser.isPresent()) {
@@ -57,12 +53,15 @@ public class UserCrud {
 			if(u.getAddress()==null) {
 				u.setAddress(db.getAddress());
 			}if(u.getAddress()!=null) {
-				u.setAddress(aDao.saveAddress(null));
+				u.setAddress(aDao.saveAddress(u.getAddress()));
+			}
+			if(u.getPost()==null) {
+				u.setPost(db.getPost());
 			}
 		}
 		return repo.save(u);
 	}
-	public User deleteUser(int id) {
+	public User deleteUser(String id) {
 		User db = repo.findById(id).get();
 		if(db!=null) {
 		 repo.deleteById(id);
@@ -75,10 +74,8 @@ public class UserCrud {
 		repo.deleteAll();
 		
 	}
-	public List<User> fetchAll(){
-		return repo.findAll();
-	}
-	public User fetchById(int id) {
+	
+	public User fetchById(String id) {
 		 Optional<User> db = repo.findById(id);
 		if(db.isPresent()) {
 			return db.get();
@@ -90,6 +87,9 @@ public class UserCrud {
 	public User fetchByEmail(String email) {
 		return repo.fetchByEmail(email);
 	}
-	
+
+	public List<User> fetchAll(){
+		return repo.findAll();
+	}
 
 }

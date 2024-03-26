@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.stereotype.Component;
 
 import com.jsp.agro.util.MyGenerator;
 
@@ -17,21 +16,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Component
-public class Comment {
+public class Equipment {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
-	@GenericGenerator(name = "comment_seq", strategy = "com.jsp.agro.util.MyGenerator", parameters = {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "equipment_seq")
+	@GenericGenerator(name = "equipment_seq", strategy = "com.jsp.agro.util.MyGenerator", parameters = {
 			@Parameter(name = MyGenerator.INCREMENT_PARAM, value = "50"),
-			@Parameter(name = MyGenerator.VALUE_PREFIX_PARAMETER, value = "comment"),
+			@Parameter(name = MyGenerator.VALUE_PREFIX_PARAMETER, value = "equipment"),
 			@Parameter(name = MyGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
 	private String id;
-	private String msg;
+	private String name;
+	private double costPerHrs;
 	@ManyToOne
 	private User user;
-	
 
 }
